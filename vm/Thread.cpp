@@ -1281,6 +1281,7 @@ bool dvmCreateInterpThread(Object* threadObj, int reqStackSize)
             "thread has already been started");
         freeThread(newThread);
         dvmReleaseTrackedAlloc(vmThreadObj, NULL);
+        return false;
     }
 
     /*
@@ -3282,11 +3283,6 @@ static bool shouldShowNativeStack(Thread* thread) {
 
     // In an Object.wait variant? That's not interesting.
     if (thread->status == THREAD_TIMED_WAIT || thread->status == THREAD_WAIT) {
-        return false;
-    }
-
-    // The Signal Catcher thread? That's not interesting.
-    if (thread->status == THREAD_RUNNING) {
         return false;
     }
 
